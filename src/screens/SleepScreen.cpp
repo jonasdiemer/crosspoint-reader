@@ -13,6 +13,6 @@ void SleepScreen::onEnter() {
   renderer.drawImage(CrossLarge, (pageWidth - 128) / 2, (pageHeight - 128) / 2, 128, 128);
   renderer.drawCenteredText(UI_FONT_ID, pageHeight / 2 + 70, "CrossPoint", true, BOLD);
   renderer.drawCenteredText(SMALL_FONT_ID, pageHeight / 2 + 95, "SLEEPING");
-  renderer.invertScreen();
+  // renderer.invertScreen();
   renderer.displayBuffer(EInkDisplay::HALF_REFRESH);
 }
