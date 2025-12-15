@@ -5,21 +5,21 @@ class CrossPointSettings {
  private:
   // Private constructor for singleton
   CrossPointSettings() = default;
-  
+
   // Static instance
   static CrossPointSettings instance;
-  
+
  public:
   // Delete copy constructor and assignment
   CrossPointSettings(const CrossPointSettings&) = delete;
   CrossPointSettings& operator=(const CrossPointSettings&) = delete;
-  
+
   // Sleep screen settings
   bool whiteSleepScreen = false;
-  
+
   // Text rendering settings
-  bool extraParagraphSpacing = false;
-  
+  bool extraParagraphSpacing = true;
+
   ~CrossPointSettings() = default;
 
   // Get singleton instance

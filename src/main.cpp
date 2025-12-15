@@ -133,7 +133,6 @@ void waitForPowerRelease() {
 // Enter deep sleep mode
 void enterDeepSleep() {
   exitScreen();
-  SETTINGS.saveToFile();
   enterNewScreen(new SleepScreen(renderer, inputManager));
 
   Serial.printf("[%lu] [   ] Power button released after a long press. Entering deep sleep.\n", millis());

@@ -6,6 +6,7 @@
 #include "config.h"
 
 // Define the static settings list
+
 const SettingInfo SettingsScreen::settingsList[SettingsScreen::settingsCount] = {
   {"White Sleep Screen", &CrossPointSettings::whiteSleepScreen},
   {"Extra Paragraph Spacing", &CrossPointSettings::extraParagraphSpacing}
@@ -134,7 +135,7 @@ void SettingsScreen::render() const {
   }
 
   // Draw help text
-  renderer.drawText(SMALL_FONT_ID, 20, pageHeight - 40,
+  renderer.drawText(SMALL_FONT_ID, 20, pageHeight - 30,
                    "Press OK to toggle, BACK to save & exit");
 
   // Always use standard refresh for settings screen

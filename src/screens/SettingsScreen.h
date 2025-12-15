@@ -1,4 +1,5 @@
 #pragma once
+#include <cstdint>
 #include <freertos/FreeRTOS.h>
 #include <freertos/semphr.h>
 #include <freertos/task.h>
@@ -13,7 +14,7 @@ class CrossPointSettings;
 // Structure to hold setting information
 struct SettingInfo {
   const char* name;       // Display name of the setting
-  bool CrossPointSettings::* valuePtr;  // Pointer to member in CrossPointSettings
+  uint8_t CrossPointSettings::* valuePtr;  // Pointer to member in CrossPointSettings
 };
 
 class SettingsScreen final : public Screen {
@@ -22,7 +23,7 @@ class SettingsScreen final : public Screen {
   bool updateRequired = false;
   int selectedSettingIndex = 0;  // Currently selected setting
   const std::function<void()> onGoHome;
-  
+
   // Static settings list
   static constexpr int settingsCount = 2;  // Number of settings
   static const SettingInfo settingsList[settingsCount];
