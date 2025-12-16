@@ -126,7 +126,7 @@ void ParsedText::layoutAndExtractLines(const GfxRenderer& renderer, const int fo
     // Calculate spacing
     int spareSpace = pageWidth - lineWordWidthSum;
     if (wordWidthIndex == 0) {
-        spareSpace -= indentWidth;
+      spareSpace -= indentWidth;
     }
 
     int spacing = spaceWidth;

@@ -20,7 +20,7 @@ class ParsedText {
 
  public:
   explicit ParsedText(const TextBlock::BLOCK_STYLE style, const bool extraParagraphSpacing)
-    : style(style), extraParagraphSpacing(extraParagraphSpacing) {}
+      : style(style), extraParagraphSpacing(extraParagraphSpacing) {}
   ~ParsedText() = default;
 
   void addWord(std::string word, EpdFontStyle fontStyle);
