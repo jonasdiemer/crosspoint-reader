@@ -53,7 +53,7 @@ void ParsedText::layoutAndExtractLines(const GfxRenderer& renderer, const int fo
   ans[totalWordCount - 1] = totalWordCount - 1;
 
   for (int i = totalWordCount - 2; i >= 0; --i) {
-    int currlen = -spaceWidth + indentWidth;
+    int currlen = -spaceWidth + (i==0) ? indentWidth : 0;
     dp[i] = MAX_COST;
 
     for (size_t j = i; j < totalWordCount; ++j) {
