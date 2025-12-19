@@ -217,7 +217,6 @@ void Epub::initializeSpineItemSizes() {
       size_t s = 0;
       unsigned long last = millis();
       const std::string path = normalisePath(spineItem);
-      // TODO: This is still too slow, because zip opens zipfile every time?
       zip.getInflatedFileSize(path.c_str(), &s);
       // getItemSize(spineItem, &s);
       Serial.printf("[%lu] [EBP] Determining size %d of item %d took %lu ms\n", millis(), cumSpineItemSize, i,
