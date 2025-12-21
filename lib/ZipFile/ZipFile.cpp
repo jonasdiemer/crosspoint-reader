@@ -27,6 +27,15 @@ bool inflateOneShot(const uint8_t* inputBuf, const size_t deflatedSize, uint8_t*
   return true;
 }
 
+ZipFile::ZipFile(std::string filePath) : filePath(std::move(filePath)) {
+  const bool status = mz_zip_reader_init_file(&zipArchive, this->filePath.c_str(), 0);
+
+  if (!status) {
+    Serial.printf("[%lu] [ZIP] mz_zip_reader_init_file() failed for %s! Error: %s\n", millis(), this->filePath.c_str(),
+                  mz_zip_get_error_string(zipArchive.m_last_error));
+  }
+}
+
 bool ZipFile::loadFileStat(const char* filename, mz_zip_archive_file_stat* fileStat) const {
   // find the file
   mz_uint32 fileIndex = 0;
