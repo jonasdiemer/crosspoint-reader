@@ -5,6 +5,8 @@
 #include <GfxRenderer.h>
 #include <InputManager.h>
 #include <WiFi.h>
+#include <cstdint>
+#include <QrCode.h>
 
 #include "NetworkModeSelectionActivity.h"
 #include "WifiSelectionActivity.h"
@@ -336,6 +338,29 @@ void CrossPointWebServerActivity::render() const {
   }
 }
 
+void drawQRCode(GfxRenderer& renderer, const int x, const int y,
+    uint8_t* qrcodeBytes, const std::string& data, int size) {
+  // Implementation of QR code calculation
+  // The structure to manage the QR code
+  QRCode qrcode;
+  uint8_t qrcodeBytes[qrcode_getBufferSize(3)];
+  Serial.printf("QR Code:\n");
+
+  qrcode_initText(&qrcode, qrcodeBytes, 3, ECC_LOW, data.c_str());
+  const uint8_t px = 6; // pixels per module
+  for (uint8_t cy = 0; cy < qrcode.size; cy++) {
+      for (uint8_t cx = 0; cx < qrcode.size; cx++) {
+          if (qrcode_getModule(&qrcode, cx, cy)) {
+              // Serial.print("**");
+              renderer.fillRect(x + px*cx, y + px*cy, px, px, true);
+          } else {
+              // Serial.print("  ");
+          }
+      }
+      Serial.print("\n");
+  }
+}
+
 void CrossPointWebServerActivity::renderServerRunning() const {
   const auto pageHeight = renderer.getScreenHeight();
 
@@ -387,6 +412,12 @@ void CrossPointWebServerActivity::renderServerRunning() const {
     renderer.drawCenteredText(SMALL_FONT_ID, startY + LINE_SPACING * 3, hostnameUrl.c_str(), true, REGULAR);
 
     renderer.drawCenteredText(SMALL_FONT_ID, startY + LINE_SPACING * 4, "Open this URL in your browser", true, REGULAR);
+
+    // Show QR code for easy scanning
+    // array of pixels for QR code, version 3 = 29x29
+    drawQRCode(renderer, (480-6*29)/2, startY + LINE_SPACING * 6, qrcodeBytes, webInfo, webInfo.length());
+    renderer.drawCenteredText(SMALL_FONT_ID, startY + LINE_SPACING * 5, "or scan QR code with your phone:", true, REGULAR);
+
   }
 
   renderer.drawCenteredText(SMALL_FONT_ID, pageHeight - 30, "Press BACK to exit", true, REGULAR);
