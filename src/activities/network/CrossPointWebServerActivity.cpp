@@ -340,7 +340,7 @@ void CrossPointWebServerActivity::render() const {
   }
 }
 
-void drawQRCode(GfxRenderer& renderer, const int x, const int y, const std::string& data) {
+void drawQRCode(const GfxRenderer& renderer, const int x, const int y, const std::string& data) {
   // Implementation of QR code calculation
   // The structure to manage the QR code
   QRCode qrcode;
