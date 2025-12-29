@@ -10,9 +10,8 @@ if [[ "$1" == "-g" ]]; then
 
     # Use 'git ls-files' to get a list of all files with pending changes:
     # --modified: files tracked by git that have been modified (staged or unstaged)
-    # --others: untracked files
     # --exclude-standard: ignores files in .gitignore
-    git ls-files --modified --others --exclude-standard \
+    git ls-files --modified --exclude-standard \
         | grep -E '\.(c|cpp|h|hpp)$' \
         | xargs -r clang-format $STYLE_ARGS
 
