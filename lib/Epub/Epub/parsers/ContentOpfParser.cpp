@@ -219,19 +219,19 @@ void XMLCALL ContentOpfParser::startElement(void* userData, const XML_Char* name
     for (int i = 0; atts[i]; i += 2) {
       if (strcmp(atts[i], "type") == 0) {
         type = atts[i + 1];
-        if (type == "text") {
+        if (type == "text" || type == "start") {
           continue;
         } else {
           Serial.printf("[%lu] [COF] Skipping non-text reference in guide: %s\n", millis(), type.c_str());
           break;
         }
       } else if (strcmp(atts[i], "href") == 0) {
-        textHref = atts[i + 1];
+        textHref = self->baseContentPath + atts[i + 1];
       }
     }
-    if ((type == "text") && (textHref.length() > 0)) {
-      Serial.printf("[%lu] [COF] Found text reference in guide: %s.\n", millis(), textHref.c_str());
-      // TODO: now this has to become the chapter we display
+    if ((type == "text" || (type == "start" && !self->textReferenceHref.empty())) && (textHref.length() > 0)) {
+      Serial.printf("[%lu] [COF] Found %s reference in guide: %s.\n", millis(), type.c_str(), textHref.c_str());
+      self->textReferenceHref = textHref;
     }
     return;
   }

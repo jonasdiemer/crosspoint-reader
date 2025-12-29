@@ -34,6 +34,7 @@ class ContentOpfParser final : public Print {
   std::string title;
   std::string tocNcxPath;
   std::string coverItemHref;
+  std::string textReferenceHref;
 
   explicit ContentOpfParser(const std::string& cachePath, const std::string& baseContentPath, const size_t xmlSize,
                             BookMetadataCache* cache)
