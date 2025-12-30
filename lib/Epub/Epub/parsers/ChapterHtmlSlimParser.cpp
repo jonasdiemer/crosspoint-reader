@@ -70,14 +70,13 @@ void XMLCALL ChapterHtmlSlimParser::startElement(void* userData, const XML_Char*
     if (atts != nullptr) {
       for (int i = 0; atts[i]; i += 2) {
         if (strcmp(atts[i], "alt") == 0) {
-          alt = "Image[" + std::string(atts[i + 1]) + "]";
+          alt = "[Image: " + std::string(atts[i + 1]) + "]";
         }
       }
       Serial.printf("[%lu] [EHP] Image alt: %s\n", millis(), alt.c_str());
 
       self->startNewTextBlock(TextBlock::CENTER_ALIGN);
       self->italicUntilDepth = min(self->italicUntilDepth, self->depth);
-      self->boldUntilDepth = min(self->boldUntilDepth, self->depth);
       self->depth += 1;
       self->characterData(userData, alt.c_str(), alt.length());
 
