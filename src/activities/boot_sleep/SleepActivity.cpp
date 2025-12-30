@@ -49,8 +49,8 @@ void SleepActivity::renderPopup(const char* message) const {
   const int w = textWidth + margin * 2;
   const int h = renderer.getLineHeight(UI_12_FONT_ID) + margin * 2;
   // renderer.clearScreen();
-  renderer.fillRect(x + 5, y + 5, w - 10, h - 10, false);
-  renderer.drawText(UI_12_FONT_ID, x + margin, y + margin, message);
+  renderer.fillRect(x + 5, y + 5, w - 10, h - 10, true);
+  renderer.drawText(UI_12_FONT_ID, x + margin, y + margin, message, false);
   renderer.drawRect(x + 5, y + 5, w - 10, h - 10);
   renderer.displayBuffer();
 }
