@@ -9,7 +9,7 @@
 #include "FsHelpers.h"
 
 namespace {
-constexpr uint8_t BOOK_CACHE_VERSION = 2;
+constexpr uint8_t BOOK_CACHE_VERSION = 3;
 constexpr char bookBinFile[] = "/book.bin";
 constexpr char tmpSpineBinFile[] = "/spine.bin.tmp";
 constexpr char tmpTocBinFile[] = "/toc.bin.tmp";
@@ -87,8 +87,8 @@ bool BookMetadataCache::buildBookBin(const std::string& epubPath, const BookMeta
 
   constexpr uint32_t headerASize =
       sizeof(BOOK_CACHE_VERSION) + /* LUT Offset */ sizeof(uint32_t) + sizeof(spineCount) + sizeof(tocCount);
-  const uint32_t metadataSize =
-      metadata.title.size() + metadata.author.size() + metadata.coverItemHref.size() + metadata.textReferenceHref.size() + sizeof(uint32_t) * 4;
+  const uint32_t metadataSize = metadata.title.size() + metadata.author.size() + metadata.coverItemHref.size() +
+                                metadata.textReferenceHref.size() + sizeof(uint32_t) * 4;
   const uint32_t lutSize = sizeof(uint32_t) * spineCount + sizeof(uint32_t) * tocCount;
   const uint32_t lutOffset = headerASize + metadataSize;
 
