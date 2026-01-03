@@ -468,8 +468,7 @@ bool JpegToBmpConverter::jpegFileToBmpStream(FsFile& jpegFile, Print& bmpOut) {
     // Calculate scale to fit within target dimensions while maintaining aspect ratio
     const float scaleToFitWidth = static_cast<float>(TARGET_MAX_WIDTH) / imageInfo.m_width;
     const float scaleToFitHeight = static_cast<float>(TARGET_MAX_HEIGHT) / imageInfo.m_height;
-    // const float scale = (scaleToFitWidth < scaleToFitHeight) ? scaleToFitWidth : scaleToFitHeight;
-    // For now, scale to the smaller dimension, so we can crop later.
+    // We scale to the smaller dimension, so we can potentially crop later.
     // TODO: ideally, we already crop here.
     const float scale = (scaleToFitWidth > scaleToFitHeight) ? scaleToFitWidth : scaleToFitHeight;
 

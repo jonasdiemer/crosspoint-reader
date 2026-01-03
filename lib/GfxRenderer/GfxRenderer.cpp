@@ -187,10 +187,11 @@ void GfxRenderer::drawBitmap(const Bitmap& bitmap, const int x, const int y, con
   for (int bmpY = 0; bmpY < (bitmap.getHeight() - cropPixY); bmpY++) {
     // The BMP's (0, 0) is the bottom-left corner (if the height is positive, top-left if negative).
     // Screen's (0, 0) is the top-left corner.
-    int screenY = y - cropPixY + (bitmap.isTopDown() ? bmpY : bitmap.getHeight() - 1 - bmpY);
+    int screenY = -cropPixY + (bitmap.isTopDown() ? bmpY : bitmap.getHeight() - 1 - bmpY);
     if (isScaled) {
       screenY = std::floor(screenY * scale);
     }
+    screenY += y;  // the offset should not be scaled
     if (screenY >= getScreenHeight()) {
       break;
     }
@@ -208,10 +209,11 @@ void GfxRenderer::drawBitmap(const Bitmap& bitmap, const int x, const int y, con
     }
 
     for (int bmpX = cropPixX; bmpX < bitmap.getWidth() - cropPixX; bmpX++) {
-      int screenX = x + bmpX - cropPixX;
+      int screenX = bmpX - cropPixX;
       if (isScaled) {
         screenX = std::floor(screenX * scale);
       }
+      screenX += x;  // the offset should not be scaled
       if (screenX >= getScreenWidth()) {
         break;
       }

@@ -54,6 +54,8 @@ class CrossPointSettings {
 
   // Sleep screen settings
   uint8_t sleepScreen = DARK;
+  // Sleep screen cover mode settings
+  uint8_t sleepScreenCoverMode = FIT;
   // Status bar settings
   uint8_t statusBar = FULL;
   // Text rendering settings
