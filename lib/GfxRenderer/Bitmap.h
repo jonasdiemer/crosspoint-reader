@@ -30,8 +30,7 @@ class Bitmap {
  public:
   static const char* errorToString(BmpReaderError err);
 
-  explicit Bitmap(FsFile& file, bool useFloydSteinberg = false, uint8_t brightnessBoost = 0)
-      : file(file), useFloydSteinberg(useFloydSteinberg), brightnessBoost(brightnessBoost) {}
+  explicit Bitmap(FsFile& file, bool useFloydSteinberg = false) : file(file), useFloydSteinberg(useFloydSteinberg) {}
   ~Bitmap();
   BmpReaderError parseHeaders();
   BmpReaderError readNextRow(uint8_t* data, uint8_t* rowBuffer) const;
@@ -48,7 +47,6 @@ class Bitmap {
 
   FsFile& file;
   bool useFloydSteinberg = false;
-  uint8_t brightnessBoost = 0;
   int width = 0;
   int height = 0;
   bool topDown = false;

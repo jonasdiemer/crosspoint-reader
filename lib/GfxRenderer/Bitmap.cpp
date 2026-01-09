@@ -32,16 +32,6 @@ static inline int applyGamma(int gray) {
   return x > 255 ? 255 : x;
 }
 
-// TODO: remove
-static inline uint8_t boostBrightness(int gray, uint8_t boost) {
-  if (boost > 0) {
-    gray += boost;
-    if (gray > 255) gray = 255;
-    gray = applyGamma(gray);
-  }
-  return gray;
-}
-
 // Apply contrast adjustment around midpoint (128)
 // factor > 1.0 increases contrast, < 1.0 decreases
 static inline int applyContrast(int gray) {
@@ -320,11 +310,10 @@ BmpReaderError Bitmap::readNextRow(uint8_t* data, uint8_t* rowBuffer) const {
     uint8_t color;
     if (useFS) {
       // Floyd-Steinberg error diffusion
-      color = quantizeFloydSteinberg(boostBrightness(lum, brightnessBoost), currentX, width, errorCurRow, errorNextRow,
-                                     false);
+      color = quantizeFloydSteinberg(adjustPixel(lum), currentX, width, errorCurRow, errorNextRow, false);
     } else {
       // Simple quantization or noise dithering
-      color = quantize(boostBrightness(lum, brightnessBoost), currentX, prevRowY);
+      color = quantize(adjustPixel(lum), currentX, prevRowY);
     }
     currentOutByte |= (color << bitShift);
     if (bitShift == 0) {
