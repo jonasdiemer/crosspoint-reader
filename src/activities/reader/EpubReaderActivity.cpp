@@ -283,6 +283,7 @@ void EpubReaderActivity::onReaderMenuConfirm(EpubReaderMenuActivity::MenuAction 
         // We use the current variables that track our position
         uint16_t backupSpine = currentSpineIndex;
         uint16_t backupPage = section->currentPage;
+        uint16_t backupPageCount = section->pageCount;
 
         section.reset();
         // 3. WIPE: Clear the cache directory
@@ -291,7 +292,7 @@ void EpubReaderActivity::onReaderMenuConfirm(EpubReaderMenuActivity::MenuAction 
         // 4. RESTORE: Re-setup the directory and rewrite the progress file
         epub->setupCacheDir();
 
-        saveProgress(backupSpine, backupPage);
+        saveProgress(backupSpine, backupPage, backupPageCount);
       }
       exitActivity();
       updateRequired = true;
@@ -467,22 +468,22 @@ void EpubReaderActivity::renderScreen() {
     renderContents(std::move(p), orientedMarginTop, orientedMarginRight, orientedMarginBottom, orientedMarginLeft);
     Serial.printf("[%lu] [ERS] Rendered page in %dms\n", millis(), millis() - start);
   }
-  saveProgress(currentSpineIndex, section->currentPage);
+  saveProgress(currentSpineIndex, section->currentPage, section->pageCount);
 }
 
-void EpubReaderActivity::saveProgress(int spineIndex, int page) {
+void EpubReaderActivity::saveProgress(int spineIndex, int currentPage, int pageCount) {
   FsFile f;
   if (SdMan.openFileForWrite("ERS", epub->getCachePath() + "/progress.bin", f)) {
     uint8_t data[6];
     data[0] = currentSpineIndex & 0xFF;
     data[1] = (currentSpineIndex >> 8) & 0xFF;
-    data[2] = section->currentPage & 0xFF;
-    data[3] = (section->currentPage >> 8) & 0xFF;
-    data[4] = section->pageCount & 0xFF;
-    data[5] = (section->pageCount >> 8) & 0xFF;
+    data[2] = currentPage & 0xFF;
+    data[3] = (currentPage >> 8) & 0xFF;
+    data[4] = pageCount & 0xFF;
+    data[5] = (pageCount >> 8) & 0xFF;
     f.write(data, 6);
     f.close();
-    Serial.printf("[ERS] Progress saved: Chapter %d, Page %d\n", spineIndex, page);
+    Serial.printf("[ERS] Progress saved: Chapter %d, Page %d\n", spineIndex, currentPage);
   } else {
     Serial.printf("[ERS] Could not save progress!\n");
   }
