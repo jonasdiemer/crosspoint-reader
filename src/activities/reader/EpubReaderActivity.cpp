@@ -472,7 +472,6 @@ void EpubReaderActivity::renderScreen() {
 void EpubReaderActivity::saveProgress(int spineIndex, int page) {
   FsFile f;
   if (SdMan.openFileForWrite("ERS", epub->getCachePath() + "/progress.bin", f)) {
-<<<<<<< HEAD
     uint8_t data[6];
     data[0] = currentSpineIndex & 0xFF;
     data[1] = (currentSpineIndex >> 8) & 0xFF;
@@ -481,14 +480,6 @@ void EpubReaderActivity::saveProgress(int spineIndex, int page) {
     data[4] = section->pageCount & 0xFF;
     data[5] = (section->pageCount >> 8) & 0xFF;
     f.write(data, 6);
-=======
-    uint8_t data[4];
-    data[0] = spineIndex & 0xFF;
-    data[1] = (spineIndex >> 8) & 0xFF;
-    data[2] = page & 0xFF;
-    data[3] = (page >> 8) & 0xFF;
-    f.write(data, 4);
->>>>>>> 95b7f80 (Refactor saving progress to dedicated function.)
     f.close();
     Serial.printf("[ERS] Progress saved: Chapter %d, Page %d\n", spineIndex, page);
   } else {
