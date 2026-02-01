@@ -68,8 +68,7 @@ void ParsedText::layoutAndExtractLines(const GfxRenderer& renderer, const int fo
   applyParagraphIndent();
 
   const int pageWidth = viewportWidth;
-  const int spaceWidth = static_cast<float>(wordSpacing) / 100.0 * renderer.getSpaceWidth(fontId);
-  Serial.printf("[%lu] [PaT] wordSpacing: %d  spaceWidth: %d\n", millis(), wordSpacing, spaceWidth);
+  const int spaceWidth = std::round(static_cast<float>(wordSpacing) / 100.0 * renderer.getSpaceWidth(fontId));
   auto wordWidths = calculateWordWidths(renderer, fontId);
   std::vector<size_t> lineBreakIndices;
   if (hyphenationEnabled) {
