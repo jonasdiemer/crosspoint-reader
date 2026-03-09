@@ -10,6 +10,10 @@ RTC_NOINIT_ATTR char logMessages[MAX_LOG_LINES][MAX_ENTRY_LEN];
 RTC_NOINIT_ATTR size_t logHead = 0;
 
 void addToLogRingBuffer(const char* message) {
+  // Guard against uninitialized RTC memory (logHead is RTC_NOINIT_ATTR)
+  if (logHead >= MAX_LOG_LINES) {
+    logHead = 0;
+  }
   // Add the message to the ring buffer, overwriting old messages if necessary
   strncpy(logMessages[logHead], message, MAX_ENTRY_LEN - 1);
   logMessages[logHead][MAX_ENTRY_LEN - 1] = '\0';
@@ -63,6 +67,9 @@ void logPrintf(const char* level, const char* origin, const char* format, ...) {
 }
 
 std::string getLastLogs() {
+  if (logHead >= MAX_LOG_LINES) {
+    logHead = 0;
+  }
   std::string output;
   for (size_t i = 0; i < MAX_LOG_LINES; i++) {
     size_t idx = (logHead + i) % MAX_LOG_LINES;
